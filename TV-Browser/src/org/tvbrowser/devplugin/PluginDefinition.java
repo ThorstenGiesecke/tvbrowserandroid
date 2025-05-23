@@ -30,8 +30,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.concurrent.TimeoutException;
 
+import org.tvbrowser.utils.NetUtils;
 import org.tvbrowser.settings.SettingConstants;
-import org.tvbrowser.tvbrowser.NetHelper;
 import org.tvbrowser.utils.IOUtils;
 import org.tvbrowser.utils.UiUtils;
 import org.xmlpull.v1.XmlPullParser;
@@ -173,7 +173,7 @@ public class PluginDefinition implements Comparable<PluginDefinition> {
   public static PluginDefinition[] loadAvailablePluginDefinitions(String url, Context context) {
     ArrayList<PluginDefinition> pluginList = new ArrayList<>();
 
-    NetHelper.prepareConnection(context);
+    NetUtils.prepareConnection();
     try(InputStreamReader in = new InputStreamReader(IOUtils.decompressStream(new ByteArrayInputStream(IOUtils.loadUrl(PLUGIN_INFO_URL+url, 15000))), Charset.defaultCharset())) {
       XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
       Log.d("info6","openURL: "+PLUGIN_INFO_URL+url);
@@ -271,7 +271,7 @@ public class PluginDefinition implements Comparable<PluginDefinition> {
       Log.d("info6","",e);
     }
     finally {
-      NetHelper.finishConnection();
+      NetUtils.finishConnection();
     }
     
     return pluginList.toArray(new PluginDefinition[0]);

@@ -7,7 +7,7 @@ package de.epgpaid;
 import android.content.Context;
 import android.util.Log;
 
-import org.tvbrowser.tvbrowser.NetHelper;
+import org.tvbrowser.utils.NetUtils;
 import org.tvbrowser.utils.IOUtils;
 
 import java.io.BufferedReader;
@@ -215,7 +215,7 @@ public class EPGpaidDataConnection {
       }
     }
     finally {
-      NetHelper.finishConnection();
+      NetUtils.finishConnection();
     }
     
     Authenticator.setDefault(null);
@@ -269,7 +269,7 @@ public class EPGpaidDataConnection {
       }
     }
     finally {
-      NetHelper.finishConnection();
+      NetUtils.finishConnection();
     }
     
     Authenticator.setDefault(null);
@@ -334,12 +334,12 @@ public class EPGpaidDataConnection {
   }
   
   private int openPostConnection(String url, String parameter) throws Throwable {
-    NetHelper.prepareConnection(mContext);
+    NetUtils.prepareConnection();
     return openConnection(url, REQUEST_METHOD_POST, parameter);
   }
   
   private int openGetConnection(String url) throws Throwable {
-    NetHelper.prepareConnection(mContext);
+    NetUtils.prepareConnection();
     return openConnection(url, REQUEST_METHOD_GET, null);
   }
   
@@ -432,7 +432,7 @@ public class EPGpaidDataConnection {
     if(mHttpConnection != null) {
       mHttpConnection.disconnect();
       mHttpConnection = null;
-      NetHelper.finishConnection();
+      NetUtils.finishConnection();
     }
   }
   

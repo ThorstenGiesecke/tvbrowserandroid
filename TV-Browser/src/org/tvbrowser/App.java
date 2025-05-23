@@ -13,15 +13,12 @@ import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.multidex.MultiDex;
 
+import org.tvbrowser.utils.NetUtils;
 import org.tvbrowser.settings.SettingConstants;
 import org.tvbrowser.tvbrowser.R;
 import org.tvbrowser.utils.CompatUtils;
 import org.tvbrowser.utils.PrefUtils;
 import org.tvbrowser.utils.UiUtils;
-
-import java.net.CookieHandler;
-import java.net.CookieManager;
-import java.net.CookiePolicy;
 
 public final class App extends Application {
   public static final int TYPE_NOTIFICATION_DEFAULT = 0;
@@ -55,7 +52,8 @@ public final class App extends Application {
 	@Override
 	public void onCreate() {
 
-		CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
+		NetUtils.installConscryptIfNeeded();
+		NetUtils.installDefaultCookieHandler();
 
 		super.onCreate();
 		INSTANCE = this;

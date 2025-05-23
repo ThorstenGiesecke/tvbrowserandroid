@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import androidx.core.content.FileProvider;
 
 import org.tvbrowser.devplugin.PluginDefinition;
+import org.tvbrowser.utils.NetUtils;
 import org.tvbrowser.utils.CompatUtils;
 import org.tvbrowser.utils.IOUtils;
 
@@ -103,12 +104,12 @@ class PluginUpdateHelperImpl extends PluginUpdateHelper {
             mPluginFile = new File(params[0]);
 
 			try {
-				NetHelper.prepareConnection(tvBrowser.getApplicationContext());
+				NetUtils.prepareConnection();
 				boolean result = IOUtils.saveUrl(params[0], params[1], 15000);
 
 				return result;
 			}finally {
-				NetHelper.finishConnection();
+				NetUtils.finishConnection();
 			}
           }
 

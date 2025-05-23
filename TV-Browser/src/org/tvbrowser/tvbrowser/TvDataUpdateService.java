@@ -60,6 +60,7 @@ import java.util.zip.GZIPInputStream;
 import org.tvbrowser.App;
 import org.tvbrowser.content.TvBrowserContentProvider;
 import org.tvbrowser.job.JobDataUpdateAuto;
+import org.tvbrowser.utils.NetUtils;
 import org.tvbrowser.settings.SettingConstants;
 import org.tvbrowser.utils.CompatUtils;
 import org.tvbrowser.utils.IOUtils;
@@ -926,7 +927,7 @@ public class TvDataUpdateService extends Service {
         URLConnection conn = null;
 
         try {
-          NetHelper.prepareConnection(getApplicationContext());
+          NetUtils.prepareConnection();
 
           URL url = new URL(address);
 
@@ -1021,7 +1022,7 @@ public class TvDataUpdateService extends Service {
         } finally {
           Log.d("info8", "Close connection");
           IOUtils.disconnect(conn);
-          NetHelper.finishConnection();
+          NetUtils.finishConnection();
         }
       }
 
@@ -1129,7 +1130,7 @@ public class TvDataUpdateService extends Service {
 
       URLConnection connection = null;
       try {
-        NetHelper.prepareConnection(getApplicationContext());
+        NetUtils.prepareConnection();
 
         final URL documentUrl = new URL(SettingConstants.URL_SYNC_BASE + "data/scripts/syncDown.php?type=reminderFromDesktop");
         connection = documentUrl.openConnection();
@@ -1174,7 +1175,7 @@ public class TvDataUpdateService extends Service {
       }catch(Exception e) {
         Log.d("info", "", e);
       } finally {
-        NetHelper.finishConnection();
+        NetUtils.finishConnection();
     	IOUtils.disconnect(connection);
       }
       
@@ -2396,7 +2397,7 @@ public class TvDataUpdateService extends Service {
       URLConnection conn = null;
 
       try {
-          NetHelper.prepareConnection(getApplicationContext());
+          NetUtils.prepareConnection();
           URL url = new URL(SettingConstants.URL_SYNC_BASE + "data/scripts/syncUp.php?type=favortiesFromApp");
           
           conn = url.openConnection();
@@ -2474,7 +2475,7 @@ public class TvDataUpdateService extends Service {
       } finally {
         Log.d("info8","Close connection");
           IOUtils.disconnect(conn);
-          NetHelper.finishConnection();
+          NetUtils.finishConnection();
       }
     }
     
@@ -2485,7 +2486,7 @@ public class TvDataUpdateService extends Service {
 	URLConnection connection = null;
 
 	try {
-      NetHelper.prepareConnection(getApplicationContext());
+      NetUtils.prepareConnection();
       URL documentUrl = new URL(SettingConstants.URL_SYNC_BASE + "data/scripts/syncDown.php?type=favoritesFromDesktop");
       connection = documentUrl.openConnection();
       
@@ -2547,7 +2548,7 @@ public class TvDataUpdateService extends Service {
       }
     }catch(Throwable ignored) {
     }finally {
-        NetHelper.finishConnection();
+        NetUtils.finishConnection();
 		IOUtils.disconnect(connection);
 	}
   }

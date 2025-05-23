@@ -128,6 +128,7 @@ import org.tvbrowser.filter.FilterValues;
 import org.tvbrowser.filter.FilterValuesCategories;
 import org.tvbrowser.filter.FilterValuesChannels;
 import org.tvbrowser.filter.FilterValuesKeyword;
+import org.tvbrowser.utils.NetUtils;
 import org.tvbrowser.settings.PluginPreferencesActivity;
 import org.tvbrowser.settings.SettingConstants;
 import org.tvbrowser.settings.TvbPreferencesActivity;
@@ -1087,7 +1088,7 @@ public class TvBrowser extends AppCompatActivity {
 
           URLConnection connection = null;
           try {
-            NetHelper.prepareConnection(getApplicationContext());
+            NetUtils.prepareConnection();
             URL documentUrl = new URL(SettingConstants.URL_SYNC_BASE + "data/scripts/syncDown.php?type=channelsFromDesktop");
             connection = documentUrl.openConnection();
             IOUtils.setConnectionTimeoutDefault(connection);
@@ -1225,7 +1226,7 @@ public class TvBrowser extends AppCompatActivity {
             handler.post(() -> showChannelSelectionInternal());
           } finally {
         	  IOUtils.disconnect(connection);
-              NetHelper.finishConnection();
+              NetUtils.finishConnection();
           }
 
           selectingChannels = false;
@@ -1272,7 +1273,7 @@ public class TvBrowser extends AppCompatActivity {
           URLConnection connection = null;
 
           try {
-            NetHelper.prepareConnection(getApplicationContext());
+            NetUtils.prepareConnection();
             URL documentUrl = new URL(SettingConstants.URL_SYNC_BASE + "data/scripts/syncDown.php?type=dontWantToSee");
             connection = documentUrl.openConnection();
             IOUtils.setConnectionTimeoutDefault(connection);
@@ -1422,7 +1423,7 @@ public class TvBrowser extends AppCompatActivity {
           }catch(Throwable t) {
             handler.post(() -> ToastCompat.makeText(getApplicationContext(), R.string.no_dont_want_to_see_sync, ToastCompat.LENGTH_LONG).show());
           } finally {
-            NetHelper.finishConnection();
+            NetUtils.finishConnection();
         	  IOUtils.disconnect(connection);
           }
 
@@ -1525,7 +1526,7 @@ public class TvBrowser extends AppCompatActivity {
           boolean restored = false;
 
           try {
-            NetHelper.prepareConnection(getApplicationContext());
+            NetUtils.prepareConnection();
             URL documentUrl = new URL(SettingConstants.URL_SYNC_BASE + "data/scripts/syncDown.php?type=preferencesBackup");
             connection = documentUrl.openConnection();
             IOUtils.setConnectionTimeoutDefault(connection);
@@ -1649,7 +1650,7 @@ public class TvBrowser extends AppCompatActivity {
             restored = false;
           }
           finally {
-            NetHelper.finishConnection();
+            NetUtils.finishConnection();
             IOUtils.disconnect(connection);
           }
 
@@ -3068,7 +3069,7 @@ public class TvBrowser extends AppCompatActivity {
         public void run() {
           URLConnection connection = null;
           try {
-            NetHelper.prepareConnection(getApplicationContext());
+            NetUtils.prepareConnection();
             URL documentUrl = new URL(SettingConstants.URL_SYNC_BASE + "data/scripts/testMyAccount.php");
             connection = documentUrl.openConnection();
             IOUtils.setConnectionTimeoutDefault(connection);
@@ -3088,7 +3089,7 @@ public class TvBrowser extends AppCompatActivity {
           }catch(Throwable t) {
             showUserError(userName,password,syncChannels);
           } finally {
-            NetHelper.finishConnection();
+            NetUtils.finishConnection();
         	  IOUtils.disconnect(connection);
           }
         }
