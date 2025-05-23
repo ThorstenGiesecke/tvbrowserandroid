@@ -16,7 +16,6 @@
  */
 package org.tvbrowser.settings;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -168,7 +167,7 @@ public class PluginPreferencesActivity extends ToolbarPreferencesActivity {
     }
   }
 
-  @TargetApi(Build.VERSION_CODES.KITKAT)
+  @androidx.annotation.RequiresApi(Build.VERSION_CODES.KITKAT)
   @Override
   protected boolean isValidFragment(String fragmentName) {
     return fragmentName.equals(PluginPreferencesFragment.class.getCanonicalName()) || super.isValidFragment(fragmentName);

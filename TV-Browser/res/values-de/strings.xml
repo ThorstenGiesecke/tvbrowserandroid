@@ -669,7 +669,7 @@
     <string name="version">Version:</string>
     <string name="author">Autor:</string>
     <string name="android">Android:</string>
-    <string name="copyright">Copyright &#169; 2013-2025, René Mach.</string>
+    <string name="copyright">Copyright &#169; 2013–2025, René Mach.</string>
     <string name="last_data_update">Letztes\nDatenupdate:</string>
 	<string name="next_data_update">Nächstes\nDatenupdate:</string>
 	<string name="data_range_label">Datenbereich:</string>

@@ -16,14 +16,8 @@
  */
 package org.tvbrowser.settings;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.tvbrowser.tvbrowser.R;
 import org.tvbrowser.tvbrowser.ServiceUpdateRemindersAndAutoUpdate;
-import org.tvbrowser.tvbrowser.TvDataUpdateService;
-import org.tvbrowser.utils.CompatUtils;
 import org.tvbrowser.utils.IOUtils;
 import org.tvbrowser.utils.PrefUtils;
 import org.tvbrowser.utils.UiUtils;
@@ -37,7 +31,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
@@ -49,7 +42,6 @@ import android.preference.PreferenceScreen;
 import android.preference.RingtonePreference;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AlertDialog;
-import android.util.Log;
 
 public class TvbPreferenceFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener {
   @Override

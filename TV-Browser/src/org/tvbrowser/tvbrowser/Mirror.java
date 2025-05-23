@@ -190,4 +190,13 @@ public class Mirror implements Comparable<Mirror> {
       
     return success;
   }
+
+  @NonNull
+  @Override
+  public String toString() {
+    return "Mirror{" +
+            "mUrl='" + mUrl + '\'' +
+            ", mWeight=" + mWeight +
+            '}';
+  }
 }

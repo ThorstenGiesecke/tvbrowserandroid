@@ -113,11 +113,14 @@ public class ActivityFilterListEdit extends AppCompatActivity {
   
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    switch(item.getItemId()) {
-      case R.id.activity_edit_filter_list_action_channel_add: addFilter(new FilterValuesChannels());break;
-      case R.id.activity_edit_filter_list_action_categories_add: addFilter(new FilterValuesCategories());break;
-      case R.id.activity_edit_filter_list_action_keyword_add: addFilter(new FilterValuesKeyword());break;
-    }
+      int itemId = item.getItemId();
+      if (itemId == R.id.activity_edit_filter_list_action_channel_add) {
+          addFilter(new FilterValuesChannels());
+      } else if (itemId == R.id.activity_edit_filter_list_action_categories_add) {
+          addFilter(new FilterValuesCategories());
+      } else if (itemId == R.id.activity_edit_filter_list_action_keyword_add) {
+          addFilter(new FilterValuesKeyword());
+      }
     
     return true;
   }

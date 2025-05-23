@@ -4302,131 +4302,129 @@ public class TvBrowser extends AppCompatActivity {
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    switch (item.getItemId()) {
-      case R.id.action_username_password:
-      {
+      int itemId = item.getItemId();
+      if (itemId == R.id.action_username_password) {
           showAcceptTerms(false);
-      }
-      break;
-      case R.id.action_show_markings: showMarkingData();break;
-      case R.id.menu_tvbrowser_action_favorite_add: UiUtils.editFavorite(null, TvBrowser.this, null);break;
-      case R.id.menu_tvbrowser_action_favorite_edit: editFavorite();break;
-      case R.id.menu_tvbrowser_action_favorite_delete: deleteFavorite();break;
-      case R.id.action_donation: donationsRatingHelper.showDonationInfo(); break;
-      case R.id.action_search_plugins:
-        if(isOnline()) {
-          mPluginUpdateHelper.searchPlugins(false);
-        }
-        else {
-          showNoInternetConnection(getString(R.string.no_network_info_data_search_plugins), () -> mPluginUpdateHelper.searchPlugins(false));
-        }
-        break;
-      case R.id.action_pause_reminder: pauseReminder(); break;
-      case R.id.action_continue_reminder: {
-        SettingConstants.setReminderPaused(TvBrowser.this, false);
-        final ActionBar actionBar = getSupportActionBar();
-        if (actionBar!=null) {
-          actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#212021")));
-        }
-        mPauseReminder.setVisible(true);
-        mContinueReminder.setVisible(false);
-        UiUtils.updateToggleReminderStateWidget(getApplicationContext());
-      }break;
-      case R.id.action_synchronize_reminders_down:
-        if(isOnline()) {
-          startSynchronizeRemindersDown();
-        }
-        else {
-          showNoInternetConnection(getString(R.string.no_network_info_data_sync_reminder), null);
-        }
-        break;
-      case R.id.action_synchronize_reminders_up:
-        if(isOnline()) {
-          startSynchronizeUp(true, null, SettingConstants.URL_SYNC_BASE + "data/scripts/syncUp.php?type=reminderFromApp", SettingConstants.SYNCHRONIZE_UP_DONE, null);
-        }
-        else {
-          showNoInternetConnection(getString(R.string.no_network_info_data_sync_reminder),null);
-        }
-        break;
-      case R.id.action_dont_want_to_see_edit:
-        editDontWantToSee();
-        break;
-      case R.id.action_synchronize_dont_want_to_see:
-        if(isOnline()) {
-          synchronizeDontWantToSee();
-        }
-        else {
-          showNoInternetConnection(getString(R.string.no_network_info_data_sync_dont_want_to_see), null);
-        }
-        break;
-      case R.id.action_synchronize_channels:
-        if(isOnline()) {
-          if(!hasChannels()) {
-            askChannelDownload(R.string.channel_notification_title);
+      } else if (itemId == R.id.action_show_markings) {
+          showMarkingData();
+      } else if (itemId == R.id.menu_tvbrowser_action_favorite_add) {
+          UiUtils.editFavorite(null, TvBrowser.this, null);
+      } else if (itemId == R.id.menu_tvbrowser_action_favorite_edit) {
+          editFavorite();
+      } else if (itemId == R.id.menu_tvbrowser_action_favorite_delete) {
+          deleteFavorite();
+      } else if (itemId == R.id.action_donation) {
+          donationsRatingHelper.showDonationInfo();
+      } else if (itemId == R.id.action_search_plugins) {
+          if (isOnline()) {
+              mPluginUpdateHelper.searchPlugins(false);
+          } else {
+              showNoInternetConnection(getString(R.string.no_network_info_data_search_plugins), () -> mPluginUpdateHelper.searchPlugins(false));
           }
-          else {
-            syncronizeChannels();
+      } else if (itemId == R.id.action_pause_reminder) {
+          pauseReminder();
+      } else if (itemId == R.id.action_continue_reminder) {
+          SettingConstants.setReminderPaused(TvBrowser.this, false);
+          final ActionBar actionBar = getSupportActionBar();
+          if (actionBar != null) {
+              actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#212021")));
           }
-        }
-        else {
-          showNoInternetConnection(getString(R.string.no_network_info_data_sync_channels),null);
-        }
-        break;
-      case R.id.action_synchronize_channels_up:
-        if(isOnline()) {
-          uploadChannels();
-        }
-        else {
-          showNoInternetConnection(getString(R.string.no_network_info_data_sync_channels),null);
-        }
-        break;
-      case R.id.action_delete_data_update_log: deleteLog(SettingConstants.LOG_FILE_NAME_DATA_UPDATE);break;
-      case R.id.action_delete_reminder_log: deleteLog(SettingConstants.LOG_FILE_NAME_REMINDER);break;
-      case R.id.action_delete_plugin_log: deleteLog(SettingConstants.LOG_FILE_NAME_PLUGINS);break;
-      case R.id.action_send_data_update_log:sendLogMail(SettingConstants.LOG_FILE_NAME_DATA_UPDATE,getString(R.string.log_send_data_update));break;
-      case R.id.action_send_reminder_log:sendLogMail(SettingConstants.LOG_FILE_NAME_REMINDER,getString(R.string.log_send_reminder));break;
-      case R.id.action_send_plugin_log:sendLogMail(SettingConstants.LOG_FILE_NAME_PLUGINS,getString(R.string.log_send_plugin));break;
-      case R.id.menu_tvbrowser_action_settings_basic:
-        mCurrentTabLayoutFavorites = PrefUtils.getStringValue(R.string.PREF_FAVORITE_TAB_LAYOUT, R.string.pref_favorite_tab_layout_default);
-        Intent startPref = new Intent(this, TvbPreferencesActivity.class);
-        startActivityForResult(startPref, SHOW_PREFERENCES);
-        break;
-      case R.id.menu_tvbrowser_action_settings_plugins:
-        Intent startPluginPref = new Intent(this, PluginPreferencesActivity.class);
-        startActivityForResult(startPluginPref, SHOW_PLUGIN_PREFERENCES);
-        break;
-      case R.id.menu_tvbrowser_action_update_data:
-        if(isOnline()) {
-          checkTermsAccepted();
-        }
-        else {
-          showNoInternetConnection(getString(R.string.no_network_info_data_update), null);
-        }
-        break;
-      case R.id.action_privacy: showPrivacyStatement();break;
-      case R.id.action_about: showAbout();break;
-      case R.id.action_load_channels_again: selectChannels(true);break;
-      case R.id.action_select_channels: selectChannels(false);break;
-      case R.id.action_sort_channels: sortChannels(false);break;
-      case R.id.action_delete_all_data: getContentResolver().delete(TvBrowserContentProvider.CONTENT_URI_DATA, TvBrowserContentProvider.KEY_ID + " > 0", null);
-                                        getContentResolver().delete(TvBrowserContentProvider.CONTENT_URI_DATA_VERSION, TvBrowserContentProvider.KEY_ID + " > 0", null);
-                                        PrefUtils.resetDataMetaData(getApplicationContext());
-                                        break;
-      case R.id.action_scroll_now:scrollToTime(0);break;
-      case R.id.action_scroll_next:scrollToTime(Integer.MAX_VALUE);break;
-      case R.id.action_scroll_time_free:scrollToTimePick();break;
-      case R.id.action_activity_filter_list_edit_open:openFilterEdit();break;
-     // case R.id.action_filter_channels:filterChannels();break;
-      case R.id.action_reset: {
-        Editor edit = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
-        edit.putLong(getString(R.string.LAST_DATA_UPDATE), 0);
-        edit.commit();
-
-        break;
+          mPauseReminder.setVisible(true);
+          mContinueReminder.setVisible(false);
+          UiUtils.updateToggleReminderStateWidget(getApplicationContext());
+      } else if (itemId == R.id.action_synchronize_reminders_down) {
+          if (isOnline()) {
+              startSynchronizeRemindersDown();
+          } else {
+              showNoInternetConnection(getString(R.string.no_network_info_data_sync_reminder), null);
+          }
+      } else if (itemId == R.id.action_synchronize_reminders_up) {
+          if (isOnline()) {
+              startSynchronizeUp(true, null, SettingConstants.URL_SYNC_BASE + "data/scripts/syncUp.php?type=reminderFromApp", SettingConstants.SYNCHRONIZE_UP_DONE, null);
+          } else {
+              showNoInternetConnection(getString(R.string.no_network_info_data_sync_reminder), null);
+          }
+      } else if (itemId == R.id.action_dont_want_to_see_edit) {
+          editDontWantToSee();
+      } else if (itemId == R.id.action_synchronize_dont_want_to_see) {
+          if (isOnline()) {
+              synchronizeDontWantToSee();
+          } else {
+              showNoInternetConnection(getString(R.string.no_network_info_data_sync_dont_want_to_see), null);
+          }
+      } else if (itemId == R.id.action_synchronize_channels) {
+          if (isOnline()) {
+              if (!hasChannels()) {
+                  askChannelDownload(R.string.channel_notification_title);
+              } else {
+                  syncronizeChannels();
+              }
+          } else {
+              showNoInternetConnection(getString(R.string.no_network_info_data_sync_channels), null);
+          }
+      } else if (itemId == R.id.action_synchronize_channels_up) {
+          if (isOnline()) {
+              uploadChannels();
+          } else {
+              showNoInternetConnection(getString(R.string.no_network_info_data_sync_channels), null);
+          }
+      } else if (itemId == R.id.action_delete_data_update_log) {
+          deleteLog(SettingConstants.LOG_FILE_NAME_DATA_UPDATE);
+      } else if (itemId == R.id.action_delete_reminder_log) {
+          deleteLog(SettingConstants.LOG_FILE_NAME_REMINDER);
+      } else if (itemId == R.id.action_delete_plugin_log) {
+          deleteLog(SettingConstants.LOG_FILE_NAME_PLUGINS);
+      } else if (itemId == R.id.action_send_data_update_log) {
+          sendLogMail(SettingConstants.LOG_FILE_NAME_DATA_UPDATE, getString(R.string.log_send_data_update));
+      } else if (itemId == R.id.action_send_reminder_log) {
+          sendLogMail(SettingConstants.LOG_FILE_NAME_REMINDER, getString(R.string.log_send_reminder));
+      } else if (itemId == R.id.action_send_plugin_log) {
+          sendLogMail(SettingConstants.LOG_FILE_NAME_PLUGINS, getString(R.string.log_send_plugin));
+      } else if (itemId == R.id.menu_tvbrowser_action_settings_basic) {
+          mCurrentTabLayoutFavorites = PrefUtils.getStringValue(R.string.PREF_FAVORITE_TAB_LAYOUT, R.string.pref_favorite_tab_layout_default);
+          Intent startPref = new Intent(this, TvbPreferencesActivity.class);
+          startActivityForResult(startPref, SHOW_PREFERENCES);
+      } else if (itemId == R.id.menu_tvbrowser_action_settings_plugins) {
+          Intent startPluginPref = new Intent(this, PluginPreferencesActivity.class);
+          startActivityForResult(startPluginPref, SHOW_PLUGIN_PREFERENCES);
+      } else if (itemId == R.id.menu_tvbrowser_action_update_data) {
+          if (isOnline()) {
+              checkTermsAccepted();
+          } else {
+              showNoInternetConnection(getString(R.string.no_network_info_data_update), null);
+          }
+      } else if (itemId == R.id.action_privacy) {
+          showPrivacyStatement();
+      } else if (itemId == R.id.action_about) {
+          showAbout();
+      } else if (itemId == R.id.action_load_channels_again) {
+          selectChannels(true);
+      } else if (itemId == R.id.action_select_channels) {
+          selectChannels(false);
+      } else if (itemId == R.id.action_sort_channels) {
+          sortChannels(false);
+      } else if (itemId == R.id.action_delete_all_data) {
+          getContentResolver().delete(TvBrowserContentProvider.CONTENT_URI_DATA, TvBrowserContentProvider.KEY_ID + " > 0", null);
+          getContentResolver().delete(TvBrowserContentProvider.CONTENT_URI_DATA_VERSION, TvBrowserContentProvider.KEY_ID + " > 0", null);
+          PrefUtils.resetDataMetaData(getApplicationContext());
+      } else if (itemId == R.id.action_scroll_now) {
+          scrollToTime(0);
+      } else if (itemId == R.id.action_scroll_next) {
+          scrollToTime(Integer.MAX_VALUE);
+      } else if (itemId == R.id.action_scroll_time_free) {
+          scrollToTimePick();
+      } else if (itemId == R.id.action_activity_filter_list_edit_open) {
+          openFilterEdit();
+          // case R.id.action_filter_channels:filterChannels();break;
+      } else if (itemId == R.id.action_reset) {
+          Editor edit = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+          edit.putLong(getString(R.string.LAST_DATA_UPDATE), 0);
+          edit.commit();
+      } else if (itemId == R.id.action_backup_preferences_save) {
+          backupPreferences();
+      } else if (itemId == R.id.action_backup_preferences_restore) {
+          restorePreferences();
       }
-      case R.id.action_backup_preferences_save: backupPreferences();break;
-      case R.id.action_backup_preferences_restore: restorePreferences();break;
-    }
 
     for(int i = 0; i < SCROLL_IDS.length; i++) {
       if(item.getItemId() == SCROLL_IDS[i]) {

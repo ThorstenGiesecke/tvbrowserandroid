@@ -72,7 +72,9 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.Environment;
 import android.os.PowerManager;
+
 import androidx.annotation.Nullable;
+
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -84,6 +86,7 @@ import android.util.Log;
  * @author René Mach
  */
 public final class IOUtils {
+  private static final String TAG = "IOUtils";
 
   public static final Charset ISO_8859_1 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT ? StandardCharsets.ISO_8859_1 : Charset.forName("ISO-8859-1");
   public static final String ISO_8859_15 = "ISO-8859-15";
@@ -209,27 +212,19 @@ public final class IOUtils {
   private static int getDefaultCategoryColorKeyForColorKey(int colorKey) {
     int defaultColorCategoryKey = R.string.pref_color_categories_default;
 
-    switch (colorKey) {
-      case R.string.PREF_COLOR_CATEGORY_FILM:
-        defaultColorCategoryKey = R.string.pref_color_category_film_default;
-        break;
-      case R.string.PREF_COLOR_CATEGORY_SERIES:
-        defaultColorCategoryKey = R.string.pref_color_category_series_default;
-        break;
-      case R.string.PREF_COLOR_CATEGORY_NEW:
-        defaultColorCategoryKey = R.string.pref_color_category_new_default;
-        break;
-      case R.string.PREF_COLOR_CATEGORY_DOCU:
-      case R.string.PREF_COLOR_CATEGORY_MAGAZIN:
-        defaultColorCategoryKey = R.string.pref_color_category_docu_default;
-        break;
-      case R.string.PREF_COLOR_CATEGORY_CHILDREN:
-        defaultColorCategoryKey = R.string.pref_color_category_children_default;
-        break;
-      case R.string.PREF_COLOR_CATEGORY_SHOW:
-        defaultColorCategoryKey = R.string.pref_color_category_show_default;
-        break;
-    }
+      if (colorKey == R.string.PREF_COLOR_CATEGORY_FILM) {
+          defaultColorCategoryKey = R.string.pref_color_category_film_default;
+      } else if (colorKey == R.string.PREF_COLOR_CATEGORY_SERIES) {
+          defaultColorCategoryKey = R.string.pref_color_category_series_default;
+      } else if (colorKey == R.string.PREF_COLOR_CATEGORY_NEW) {
+          defaultColorCategoryKey = R.string.pref_color_category_new_default;
+      } else if (colorKey == R.string.PREF_COLOR_CATEGORY_DOCU || colorKey == R.string.PREF_COLOR_CATEGORY_MAGAZIN) {
+          defaultColorCategoryKey = R.string.pref_color_category_docu_default;
+      } else if (colorKey == R.string.PREF_COLOR_CATEGORY_CHILDREN) {
+          defaultColorCategoryKey = R.string.pref_color_category_children_default;
+      } else if (colorKey == R.string.PREF_COLOR_CATEGORY_SHOW) {
+          defaultColorCategoryKey = R.string.pref_color_category_show_default;
+      }
     
     return defaultColorCategoryKey;
   }
@@ -322,16 +317,6 @@ public final class IOUtils {
     
     return null;
   }
-  /*
-  public static SpannableString setColor(SpannableString categories, String value, int color, boolean foreground) {
-    int index = categories.toString().indexOf(value);
-    
-    if(index != -1) {
-      categories.setSpan(foreground ? new ForegroundColorSpan(color) : new BackgroundColorSpan(color), index, index+value.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-    }
-    
-    return categories;
-  }*/
   
   public static byte[] loadUrl(String urlString) throws TimeoutException {
     return loadUrl(urlString, 30000);
@@ -599,7 +584,6 @@ public final class IOUtils {
       
       out.flush();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     finally {
@@ -611,29 +595,10 @@ public final class IOUtils {
   
   public static synchronized void setDataUpdateTime(Context context, long time, SharedPreferences pref) {
     JobDataUpdateAuto.scheduleJob(context,true);
-    /*AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-    
-    Intent dataUpdate = new Intent(context, AutoDataUpdateReceiver.class);
-    dataUpdate.putExtra(SettingConstants.TIME_DATA_UPDATE_EXTRA, true);
-    
-    if(time != 0) {
-      PendingIntent pending = PendingIntent.getBroadcast(context, DATA_UPDATE_KEY, dataUpdate, PendingIntent.FLAG_UPDATE_CURRENT);
-      
-      CompatUtils.setAlarmInexact(alarmManager,AlarmManager.RTC_WAKEUP, Math.max(System.currentTimeMillis()+28*60000,time), pending);
-    }*/
   }
   
   public static synchronized void removeDataUpdateTime(SharedPreferences pref) {
     JobDataUpdateAuto.cancelJob();
-    /*AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-    
-    Intent dataUpdate = new Intent(context, AutoDataUpdateReceiver.class);
-    
-    PendingIntent pending = PendingIntent.getBroadcast(context, DATA_UPDATE_KEY, dataUpdate, PendingIntent.FLAG_NO_CREATE);
-    
-    if(pending != null) {
-      alarmManager.cancel(pending);
-    }*/
   }
   
   public static void setDataTableRefreshTime(Context context) {
@@ -664,82 +629,6 @@ public final class IOUtils {
   
   public static synchronized void handleDataUpdatePreferences(Context context, boolean fromNow) {
     JobDataUpdateAuto.scheduleJob(context);
-    /*SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-    IOUtils.removeDataUpdateTime(context, pref);
-    
-    if(PrefUtils.getStringValue(R.string.PREF_AUTO_UPDATE_TYPE, R.string.pref_auto_update_type_default).equals("2")) {
-      int days = Integer.parseInt(PrefUtils.getStringValue(R.string.PREF_AUTO_UPDATE_FREQUENCY, R.string.pref_auto_update_frequency_default)) + 1;
-      int time = PrefUtils.getIntValue(R.string.PREF_AUTO_UPDATE_START_TIME, R.integer.pref_auto_update_start_time_default);
-      long current = PrefUtils.getLongValue(R.string.AUTO_UPDATE_CURRENT_START_TIME, R.integer.auto_update_current_start_time_default);
-
-      if(current < System.currentTimeMillis()) {
-        long lastDate = PrefUtils.getLongValue(R.string.LAST_DATA_UPDATE, R.integer.last_data_update_default);
-             
-        if(lastDate == 0) {
-          lastDate = (System.currentTimeMillis() - (24 * 60 * 60000));
-          
-          Editor edit = pref.edit();
-          edit.putLong(context.getString(R.string.LAST_DATA_UPDATE), lastDate);
-          edit.commit();
-        }
-        
-        if(fromNow) {
-          current = System.currentTimeMillis();
-        }
-        
-        if(PrefUtils.getStringValue(R.string.PREF_EPGPAID_USER, "").trim().length() > 0 && 
-            PrefUtils.getStringValue(R.string.PREF_EPGPAID_PASSWORD, "").trim().length() > 0) {
-          Calendar test = Calendar.getInstance(TimeZone.getTimeZone("CET"));
-          test.set(Calendar.SECOND, 0);
-          test.set(Calendar.MILLISECOND, 0);
-          
-          int timeTest = time;
-          
-          do {
-            timeTest = time + ((int)(Math.random() * 6 * 60));
-            test.set(Calendar.HOUR_OF_DAY, timeTest/60);
-            test.set(Calendar.MINUTE, timeTest%60);
-          }while(test.get(Calendar.HOUR_OF_DAY) >= 23 || test.get(Calendar.HOUR_OF_DAY) < 4 ||
-              (test.get(Calendar.HOUR_OF_DAY) >= 15 && test.get(Calendar.HOUR_OF_DAY) < 17));
-          
-          time = timeTest;
-        }
-        else {
-          time += ((int)(Math.random() * 6 * 60));
-        }
-        
-        Calendar last = Calendar.getInstance();
-        last.setTimeInMillis(lastDate);
-        
-        last.add(Calendar.DAY_OF_YEAR, days);
-        last.set(Calendar.HOUR_OF_DAY, time/60);
-        last.set(Calendar.MINUTE, time%60);
-        last.set(Calendar.SECOND, 0);
-        last.set(Calendar.MILLISECOND, 0);
-        
-        if(last.getTimeInMillis() < System.currentTimeMillis()) {
-          last.set(Calendar.DAY_OF_YEAR, Calendar.getInstance().get(Calendar.DAY_OF_YEAR));
-          
-          if(last.get(Calendar.YEAR) < Calendar.getInstance().get(Calendar.YEAR)) {
-            last.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
-          }
-        }
-        
-        current = last.getTimeInMillis();
-        
-        if(current < System.currentTimeMillis()) {
-          current += (24 * 60 * 60000);
-        }
-        
-        current = Math.max(System.currentTimeMillis()+30*60000, current);
-        
-        Editor currentTime = PreferenceManager.getDefaultSharedPreferences(context).edit();
-        currentTime.putLong(context.getString(R.string.AUTO_UPDATE_CURRENT_START_TIME), current);
-        currentTime.commit();
-      }
-      
-      IOUtils.setDataUpdateTime(context, current, pref);
-    }*/
   }
   
   public static String[] getStringArrayFromList(ArrayList<String> list) {
@@ -807,18 +696,7 @@ public final class IOUtils {
     connection.setReadTimeout(timeout);
     connection.setConnectTimeout(timeout);
   }
-  
-  /**
-   * Normalize time of given Calendar to 2014-12-31 with the given time.
-   * <p>
-   * @param cal The Calendar to normalize.
-   * @param minutesAfterMidnight The minutes after midnight to use.
-   * @return The normalized Calendar.
-   */
-  public static Calendar normalizeTime(Calendar cal, int minutesAfterMidnight) {
-    return normalizeTime(cal, minutesAfterMidnight, 0);
-  }
-  
+
   /**
    * Normalize time of given Calendar to 2014-12-31 with the given time.
    * <p>
@@ -856,11 +734,7 @@ public final class IOUtils {
     if (closeable != null) {
       try {
         // Needs reflection to be compatible with Android 4.0
-        Method close = closeable.getClass().getMethod("close");
-        
-        if(close != null) {
-          close.invoke(closeable);
-        }
+        closeable.getClass().getMethod("close").invoke(closeable);
       }
       catch (final Exception ignored) {
         // intentionally ignored

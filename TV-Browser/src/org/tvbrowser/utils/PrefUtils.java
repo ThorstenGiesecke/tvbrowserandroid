@@ -244,13 +244,20 @@ public class PrefUtils {
     if(IOUtils.isDatabaseAccessible(context)) {
       String sort = null;
       String column = null;
-      
-      switch (value) {
-        case R.string.META_DATA_DATE_FIRST_KNOWN: column = TvBrowserContentProvider.DATA_KEY_STARTTIME; sort =  column + " ASC LIMIT 1";break;
-        case R.string.META_DATA_DATE_LAST_KNOWN: column = TvBrowserContentProvider.DATA_KEY_STARTTIME; sort =  column + " DESC LIMIT 1";break;
-        case R.string.META_DATA_ID_FIRST_KNOWN: column = TvBrowserContentProvider.KEY_ID; sort =  column + " ASC LIMIT 1";break;
-        case R.string.META_DATA_ID_LAST_KNOWN: column = TvBrowserContentProvider.KEY_ID; sort =  column + " DESC LIMIT 1";break;
-      }
+
+        if (value == R.string.META_DATA_DATE_FIRST_KNOWN) {
+            column = TvBrowserContentProvider.DATA_KEY_STARTTIME;
+            sort = column + " ASC LIMIT 1";
+        } else if (value == R.string.META_DATA_DATE_LAST_KNOWN) {
+            column = TvBrowserContentProvider.DATA_KEY_STARTTIME;
+            sort = column + " DESC LIMIT 1";
+        } else if (value == R.string.META_DATA_ID_FIRST_KNOWN) {
+            column = TvBrowserContentProvider.KEY_ID;
+            sort = column + " ASC LIMIT 1";
+        } else if (value == R.string.META_DATA_ID_LAST_KNOWN) {
+            column = TvBrowserContentProvider.KEY_ID;
+            sort = column + " DESC LIMIT 1";
+        }
       
       final Cursor valueCursor = context.getContentResolver().query(TvBrowserContentProvider.CONTENT_URI_DATA, new String[] {column}, null, null, sort);
       

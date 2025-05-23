@@ -4133,7 +4133,7 @@ public class TvDataUpdateService extends Service {
     }
   }
   
-  private class DataInfo {
+  private static class DataInfo {
     private final byte mFileVersion;
     private final byte mDataVersion;
     private final short mFrameCount;
@@ -4435,7 +4435,7 @@ public class TvDataUpdateService extends Service {
       //noinspection ResultOfMethodCallIgnored
       in.read(fileInfoBuffer);
       
-      return new DataInfo(fileInfoBuffer[0],fileInfoBuffer[1],dataUrlFileHolder.getFrameCount((short)(fileInfoBuffer[2] & 0xFF)));
+      return new DataInfo(fileInfoBuffer[0], fileInfoBuffer[1], dataUrlFileHolder.getFrameCount((short) (fileInfoBuffer[2] & 0xFF)));
     }
 
     @Override
@@ -4486,7 +4486,7 @@ public class TvDataUpdateService extends Service {
   }
   
   private class EPGpaidDataHandler {
-    private DegenderPlugin mDegenderPlugin;
+    private final DegenderPlugin mDegenderPlugin;
     private EPGpaidDataHandler(DegenderPlugin degender) {
       mDegenderPlugin = degender;
     }
@@ -4500,7 +4500,7 @@ public class TvDataUpdateService extends Service {
         byte fileVersion = in.readByte();
         result.setVersion(in.readByte());
       
-        final DataInfo dataInfo = new DataInfo(fileVersion,result.mVersion,in.readShort());
+        final DataInfo dataInfo = new DataInfo(fileVersion, result.mVersion, in.readShort());
         
         String[] fileParts = file.getName().split("_");
         
@@ -4885,7 +4885,7 @@ public class TvDataUpdateService extends Service {
       byte fileVersion = in.readByte();
       byte dataVersion = in.readByte();
       
-      return new DataInfo(fileVersion,dataVersion,in.readShort());
+      return new DataInfo(fileVersion, dataVersion, in.readShort());
     }
 
     @Override
@@ -4950,7 +4950,7 @@ public class TvDataUpdateService extends Service {
     private boolean mContainsDescription;
     private final DataHandler mDataHandler;
 
-    private DegenderPlugin mDegenderPlugin;
+    private final DegenderPlugin mDegenderPlugin;
     
     /**
      * @param date Start time in milliseconds since 1970 for UTC 0 o'clock.

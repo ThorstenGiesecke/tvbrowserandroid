@@ -1,30 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
+
     <color name="pref_color_mark_tvb_style_default">#6000FF00</color>
     <color name="pref_color_mark_reminder_tvb_style_default">#60FFFF00</color>
     <color name="pref_color_mark_favorite_tvb_style_default">#40FF0000</color>
     <color name="pref_color_mark_sync_tvb_style_favorite_default">#6000FFC0</color>
     <color name="pref_color_on_air_background_tvb_style_default">#150000FF</color>
     <color name="pref_color_on_air_progress_tvb_style_default">#400000FF</color>
-    
+
     <color name="pref_color_mark_glow_style_default">#FFFF7C00</color>
     <color name="pref_color_mark_reminder_glow_style_default">#FFFFDC00</color>
     <color name="pref_color_mark_favorite_glow_style_default">#FFB4DC00</color>
     <color name="pref_color_mark_sync_glow_style_favorite_default">#C4FF0092</color>
     <color name="pref_color_on_air_background_glow_style_default">#280080FF</color>
     <color name="pref_color_on_air_progress_glow_style_default">#780080FF</color>
-    
+
     <color name="pref_color_mark_decent_dark_style_default">#73B646B4</color>
     <color name="pref_color_mark_reminder_decent_dark_style_default">#B43B5DB4</color>
     <color name="pref_color_mark_favorite_decent_dark_style_default">#FF37783B</color>
     <color name="pref_color_mark_sync_decent_dark_style_favorite_default">#9EC90054</color>
     <color name="pref_color_on_air_background_decent_dark_style_default">#00000000</color>
     <color name="pref_color_on_air_progress_decent_dark_style_default">#42FF0000</color>
-    
+
     <color name="pref_color_running_time_selection_background_tvb_style_default">#480000FF</color>
     <color name="pref_color_running_time_selection_background_glow_style_default">#780080FF</color>
     <color name="pref_color_running_time_selection_background_decent_dark_style_default">#B43B5DB4</color>
-    
+
     <color name="pref_reminder_color_led_default">#00FF00</color>
 
     <color name="background_list_dark">#303030</color>
@@ -51,9 +53,15 @@
 
     <color name="pref_first_deleted_channels">#ff5a00</color>
     <color name="pref_kept_deleted_channels">#c60000</color>
-    
+
     <color name="pref_color_separator_line">#50646464</color>
     <color name="pref_color_separator_space">#15646464</color>
 
     <color name="widget_text_default">#ccc</color>
+
+    <!-- Fixes symbol not found error due missing constant value after switching base theme. -->
+    <color name="background_material_dark">#121212</color>
+    <color name="abc_primary_text_material_dark">#DEFFFFFF</color>
+    <color name="abc_primary_text_material_light">#DE000000</color>
+
 </resources>

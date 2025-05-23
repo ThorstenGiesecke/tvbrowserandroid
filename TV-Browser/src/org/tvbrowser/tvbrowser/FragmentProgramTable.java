@@ -738,7 +738,6 @@ public class FragmentProgramTable extends Fragment {
           }
 
           handler.post(() -> {
-            if(Build.VERSION.SDK_INT >= VERSION_CODES.ICE_CREAM_SANDWICH) {
               View view = getView();
 
               if(view != null) {
@@ -748,9 +747,8 @@ public class FragmentProgramTable extends Fragment {
                   scroll.setScrollX(mOldScrollX);
                 }
               }
-            }
 
-            mOldScrollX = 0;
+              mOldScrollX = 0;
           });
         }
       }finally {

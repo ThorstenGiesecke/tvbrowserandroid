@@ -1027,7 +1027,7 @@ public class FragmentProgramsListRunning extends Fragment implements LoaderManag
       final int time = (Integer)v.getTag();
       
       final TimePickerDialog pick = new TimePickerDialog(getActivity(), TimePickerDialog.THEME_HOLO_DARK, (view, hourOfDay, minute) -> {
-        final Integer selectedTime = hourOfDay * 60 + minute;
+        final int selectedTime = hourOfDay * 60 + minute;
 
         insertTimeExtra(selectedTime);
 

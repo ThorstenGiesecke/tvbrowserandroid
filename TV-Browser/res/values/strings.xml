@@ -680,7 +680,7 @@
     <string name="data_range_label">Data range:</string>
     <string name="next_data_update_manually">When manually started</string>
     <string name="next_data_update_connection">When connected to Internet</string>
-    <string name="copyright">Copyright &#169; 2013-2025, René Mach.</string>
+    <string name="copyright">Copyright &#169; 2013–2025, René Mach.</string>
     <string name="license"><![CDATA[<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software
   and associated documentation files (the "Software"), to use, copy, modify or merge the Software,
   furthermore to publish and distribute the Software free of charge without modifications and to permit persons

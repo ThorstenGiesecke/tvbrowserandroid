@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.tvbrowser.tvbrowser.R;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -32,7 +31,7 @@ public class TvbPreferencesActivity extends ToolbarPreferencesActivity {
 	 * http://securityintelligence.com/wp-content/uploads/2013/12/android-collapses-into-fragments.pdf
 	 */
 	@Override
-	@TargetApi(Build.VERSION_CODES.KITKAT)
+	@androidx.annotation.RequiresApi(Build.VERSION_CODES.KITKAT)
 	protected boolean isValidFragment(final String fragmentName) {
 	  return TvbPreferenceFragment.class.getCanonicalName().equals(fragmentName) ||
 	    super.isValidFragment(fragmentName);

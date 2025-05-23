@@ -8,14 +8,20 @@ import android.media.AudioAttributes;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
+import androidx.multidex.MultiDex;
 
 import org.tvbrowser.settings.SettingConstants;
 import org.tvbrowser.tvbrowser.R;
 import org.tvbrowser.utils.CompatUtils;
 import org.tvbrowser.utils.PrefUtils;
 import org.tvbrowser.utils.UiUtils;
+
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 
 public final class App extends Application {
   public static final int TYPE_NOTIFICATION_DEFAULT = 0;
@@ -39,7 +45,18 @@ public final class App extends Application {
 	}
 
 	@Override
+	protected void attachBaseContext(Context base) {
+		super.attachBaseContext(base);
+		// Required to support new Java 7+ features and backported API's
+		// for older versions of Android due low minSdk.
+		MultiDex.install(this);
+	}
+
+	@Override
 	public void onCreate() {
+
+		CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
+
 		super.onCreate();
 		INSTANCE = this;
 		SettingConstants.initialize(getApplicationContext());
@@ -50,8 +67,6 @@ public final class App extends Application {
 			UiUtils.updateRunningProgramsWidget(getApplicationContext());
 		}
 	}
-
-	//public static boolean isInititalized() {		return INSTANCE != null;	}
 
 	/**
 	 * Returns the apps's appropriate priority global notification channel identifier
@@ -66,7 +81,7 @@ public final class App extends Application {
 	    case TYPE_NOTIFICATION_REMINDER_WORK:builder.append(".reminderWorkMode");break;
 	    case TYPE_NOTIFICATION_REMINDER_NIGHT:builder.append(".reminderNightMode");break;
 	    // the default notification channel has the package name, therefor
-			// TYPE_NOTIFICATION_DEFAULT doesn't need to be handled here
+		// TYPE_NOTIFICATION_DEFAULT doesn't need to be handled here
     }
 
     return builder.toString();
@@ -80,13 +95,19 @@ public final class App extends Application {
 	 * Returns the app's global high priority notification channel name
 	 */
 	private String getNotificationChannelName(final int type) {
-	  final StringBuilder builder = new StringBuilder(getString(R.string.app_name));
+		final StringBuilder builder = new StringBuilder(getString(R.string.app_name));
 
-	  switch(type) {
-	    case TYPE_NOTIFICATION_REMINDER_DAY:builder.append(": ").append(getString(R.string.notification_channel_reminder_day));break;
-	    case TYPE_NOTIFICATION_REMINDER_WORK:builder.append(": ").append(getString(R.string.notification_channel_reminder_work));break;
-	    case TYPE_NOTIFICATION_REMINDER_NIGHT:builder.append(": ").append(getString(R.string.notification_channel_reminder_night));break;
-    }
+		switch (type) {
+			case TYPE_NOTIFICATION_REMINDER_DAY:
+				builder.append(": ").append(getString(R.string.notification_channel_reminder_day));
+				break;
+			case TYPE_NOTIFICATION_REMINDER_WORK:
+				builder.append(": ").append(getString(R.string.notification_channel_reminder_work));
+				break;
+			case TYPE_NOTIFICATION_REMINDER_NIGHT:
+				builder.append(": ").append(getString(R.string.notification_channel_reminder_night));
+				break;
+		}
 
 		return builder.toString();
 	}

@@ -1,8 +1,9 @@
-apply plugin: 'com.android.application'
+//import groovy.swing.SwingBuilder
+//System.setProperty('java.awt.headless', 'false')
 
-import groovy.swing.SwingBuilder
-
-System.setProperty('java.awt.headless', 'false')
+plugins {
+    id 'com.android.application'
+}
 
 android {
     signingConfigs {
@@ -16,32 +17,39 @@ android {
         }
     }
 
+    namespace = "org.tvbrowser.tvbrowser"
     compileSdkVersion 28
+
     defaultConfig {
         applicationId "org.tvbrowser.tvbrowser"
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 4274
         versionName "0.7.0.10beta3"
+
+        multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
     }
 
     flavorDimensions "default"
     productFlavors {
+
         free {
             dimension "default"
             applicationIdSuffix ""
-            signingConfig signingConfigs.free
+            signingConfig = signingConfigs.free
         }
+
         google {
             dimension "default"
             versionNameSuffix "vP"
             applicationIdSuffix ".play"
-            signingConfig signingConfigs.google
+            signingConfig = signingConfigs.google
         }
     }
 
     buildTypes {
+
         debug {
             debuggable true
             minifyEnabled false
@@ -49,8 +57,12 @@ android {
             versionNameSuffix "-debug"
             applicationIdSuffix ".debug"
         }
+
         release {
-          /*  def password = ""
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+            /*
+            def password = ""
             def passwordKeyStore = ""
 
             if (System.console() == null) {
@@ -97,14 +109,20 @@ android {
             android.signingConfigs.free.keyPassword = password
 
             productFlavors.google.signingConfig = signingConfigs.google
-            productFlavors.free.signingConfig = signingConfigs.free*/
-
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+            productFlavors.free.signingConfig = signingConfigs.free
+            */
         }
     }
 
+    compileOptions {
+        // JavaVersion.VERSION_11 requires compileSdkVersion >= 30
+        coreLibraryDesugaringEnabled = true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     sourceSets {
+
         main {
             manifest.srcFile 'AndroidManifest.xml'
             java.srcDirs = ['src']
@@ -119,8 +137,6 @@ android {
             manifest.srcFile 'free/AndroidManifest.xml'
             java.srcDirs = ['free/src']
             resources.srcDirs = ['free/src']
-            aidl.srcDirs = ['free/src']
-            renderscript.srcDirs = ['free/src']
             res.srcDirs = ['free/res']
             assets.srcDirs = ['free/assets']
         }
@@ -129,23 +145,26 @@ android {
             manifest.srcFile 'google/AndroidManifest.xml'
             java.srcDirs = ['google/src']
             resources.srcDirs = ['google/src']
-            aidl.srcDirs = ['google/src']
-            renderscript.srcDirs = ['google/src']
+            aidl.srcDirs = ['src', 'google/src']
             res.srcDirs = ['google/res']
             assets.srcDirs = ['google/assets']
         }
 
-        androidTest.setRoot('androidTest')
+        //androidTest.setRoot('androidTest')
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+
+    buildFeatures {
+        aidl = true
+        buildConfig = true
+        renderScript = true
+        resValues = true
+        shaders = true
+        viewBinding = true
     }
-    lintOptions {
-        checkReleaseBuilds true
-        // Or, if you prefer, you can continue to check for errors in release builds,
-        // but continue the build even when errors are found:
-        abortOnError false
+
+    lint {
+        abortOnError = false
+        checkReleaseBuilds = true
     }
 }
 
@@ -172,12 +191,16 @@ if (project.hasProperty("AndroidProject.signing")
 }
 
 dependencies {
-    implementation 'android.arch.work:work-runtime:1.0.1'
+
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
+
     implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0'
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.vectordrawable:vectordrawable:1.0.1'
-    implementation 'com.google.android.material:material:1.1.0-alpha09'
+    implementation 'androidx.work:work-runtime:2.0.1'
+    implementation 'com.google.android.material:material:1.1.0'
     implementation 'me.drakeet.support:toastcompat:1.1.0'
     implementation 'com.google.android.gms:play-services-auth:20.7.0'
 }

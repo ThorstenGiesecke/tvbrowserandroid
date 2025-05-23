@@ -132,7 +132,7 @@ public class InfoActivity extends AppCompatActivity {
         Collections.sort(values);
       }
       
-      final boolean hasNext = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
+      final boolean hasNext = true;
       final int indexOffset = hasNext ? 1 : 0;
       
       int selection = 0;

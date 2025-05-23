@@ -6,9 +6,6 @@ import android.util.Log;
 import org.tvbrowser.content.TvBrowserContentProvider;
 import org.tvbrowser.utils.PrefUtils;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.LinkedHashMap;
 import java.util.Set;
 import java.util.regex.Matcher;

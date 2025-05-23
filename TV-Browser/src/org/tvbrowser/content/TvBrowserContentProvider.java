@@ -1554,7 +1554,7 @@ public class TvBrowserContentProvider extends ContentProvider {
         }.start();
       }
       
-      if(oldVersion >= 7 && oldVersion < 8) {
+      if(oldVersion == 7) {
         if(!columnExists(db, DATA_KEY_DATE_PROG_STRING_ID)) {
           db.execSQL("ALTER TABLE " + DATA_TABLE + " ADD COLUMN " + DATA_KEY_DATE_PROG_STRING_ID + " TEXT");
         }
