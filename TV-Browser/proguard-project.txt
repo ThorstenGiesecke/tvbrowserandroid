@@ -19,9 +19,13 @@
 #   public *;
 #}
 
--dontwarn androidx.work.**
 -keep class !android.support.v7.internal.view.menu.**,** {*;}
 -keepattributes *,LineNumberTable
+
+-dontwarn androidx.work.**
+
+-dontwarn org.conscrypt.**
+-keep class org.conscrypt.** { *; }
 
 #-keep public class android.support.v7.widget.** { *; }
 #-keep public class android.support.v7.internal.widget.** { *; }

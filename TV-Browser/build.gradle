@@ -18,7 +18,7 @@ android {
     }
 
     namespace = "org.tvbrowser.tvbrowser"
-    compileSdkVersion 28
+    compileSdkVersion 30
 
     defaultConfig {
         applicationId "org.tvbrowser.tvbrowser"
