@@ -54,6 +54,7 @@ public final class App extends Application {
 
 		NetUtils.installConscryptIfNeeded();
 		NetUtils.installDefaultCookieHandler();
+		NetUtils.installLetsEncryptCaIfNeeded(this);
 
 		super.onCreate();
 		INSTANCE = this;
