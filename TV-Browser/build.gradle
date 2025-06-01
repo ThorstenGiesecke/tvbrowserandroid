@@ -18,11 +18,13 @@ android {
     }
 
     namespace = "org.tvbrowser.tvbrowser"
-    compileSdkVersion 30
+    //noinspection GradleDependency
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "org.tvbrowser.tvbrowser"
         minSdkVersion 16
+        //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 28
         versionCode 4274
         versionName "0.7.0.10beta3"
@@ -156,7 +158,7 @@ android {
     buildFeatures {
         aidl = true
         buildConfig = true
-        renderScript = true
+        //renderScript = true
         resValues = true
         shaders = true
         viewBinding = true
@@ -194,7 +196,7 @@ dependencies {
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
 
-    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0'
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
     implementation 'androidx.multidex:multidex:2.0.1'

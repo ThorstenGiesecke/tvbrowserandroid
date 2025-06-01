@@ -362,7 +362,7 @@ public final class CompatUtils {
       return mWrappedResources;
     }
 
-    private class WrappedResources extends Resources {
+    private static class WrappedResources extends Resources {
       @SuppressWarnings("deprecation")
       WrappedResources(final AssetManager assets, final DisplayMetrics displayMetrics,
                        final Configuration configuration) {

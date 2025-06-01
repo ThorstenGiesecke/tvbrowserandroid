@@ -1584,7 +1584,7 @@ public class TvDataUpdateService extends Service {
     return choosenMirror;
   }
   
-  private final class ChangeableFinalBoolean {
+  private static final class ChangeableFinalBoolean {
     private boolean mValue;
     
     ChangeableFinalBoolean(boolean value) {
